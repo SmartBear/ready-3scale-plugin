@@ -58,6 +58,7 @@ public class AddAPIFrom3ScaleAction extends AbstractSoapUIAction<WsdlProject> {
             }
             catch(Exception e){
                 UISupport.showErrorMessage(e.getMessage());
+                SoapUI.logError( e );
             }
             return worker.apis;
         }
@@ -69,6 +70,7 @@ public class AddAPIFrom3ScaleAction extends AbstractSoapUIAction<WsdlProject> {
             }
             catch (Throwable e){
                 apiRetrievingError = e.getMessage();
+                SoapUI.logError( e );
             }
             return null;
         }
@@ -123,6 +125,7 @@ public class AddAPIFrom3ScaleAction extends AbstractSoapUIAction<WsdlProject> {
             }
             catch (Exception e) {
                 UISupport.showErrorMessage(e.getMessage());
+                SoapUI.logError( e );
             }
             if (worker.addedServices != null && worker.addedServices.size() > 0) return worker.addedServices; else return null;
         }
@@ -137,6 +140,7 @@ public class AddAPIFrom3ScaleAction extends AbstractSoapUIAction<WsdlProject> {
                 }
                 catch(Throwable e){
                     errors = errors + String.format("Importing of \"%s\" API has failed with \"%s\" error.\n", link.name, e.getMessage());
+                    SoapUI.logError( e );
                     continue;
                 }
                 addedServices.add(service);
