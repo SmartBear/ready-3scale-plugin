@@ -23,13 +23,14 @@ public class AddAPIFrom3ScaleAction extends AbstractSoapUIAction<WsdlProject> {
     @Override
     public void perform(WsdlProject wsdlProject, Object o) {
         Utils.APIListExtractionResult listExtractionResult;
+        String urlString = null;
         while(true) {
-            String urlString = UISupport.getDialogs().prompt("Input developer portal URL (i.e. developer.example.com or example.3scale.net)", "Add API Specification from 3Scale");
+            urlString = UISupport.getDialogs().prompt("Input developer portal URL (i.e. developer.example.com or example.3scale.net)", "Add API Specification from 3Scale", urlString);
             if (urlString == null) return;
             URL url = Utils.stringToUrl(urlString);
             if (url == null) {
                 UISupport.showErrorMessage("Invalid URL");
-                return;
+                continue;
             }
             listExtractionResult = Utils.downloadAPIList(url);
             if (listExtractionResult.canceled) return;
