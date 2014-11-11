@@ -4,16 +4,19 @@ import com.eviware.soapui.SoapUI;
 import com.eviware.soapui.impl.rest.RestService;
 import com.eviware.soapui.impl.wsdl.WsdlProject;
 import com.eviware.soapui.support.StringUtils;
-import com.fasterxml.jackson.annotation.JsonValue;
 
 import javax.json.JsonArray;
 import javax.json.JsonObject;
+import javax.json.stream.JsonParsingException;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.json.JsonValue;
 import com.smartbear.swagger.*;
 
 public class ThreeScale{
@@ -27,10 +30,24 @@ public class ThreeScale{
 
     public static List<ApiDefLink> getApiDefLinks(URL developerPortalUrl) throws IOException{
         URL url = new URL(developerPortalUrl, "api_docs/services.json");
-        Reader reader = new InputStreamReader(url.openStream());
+        Reader reader;
+        try {
+            reader = new InputStreamReader(url.openStream());
+        }
+        catch(FileNotFoundException e){
+            throw new FileNotFoundException("API specification list has not been found at the expected URL");
+        }
         final javax.json.JsonReader jsonReader = javax.json.Json.createReader(reader);
-        JsonObject jsonObject = jsonReader.readObject();
-        JsonArray apis = jsonObject.getJsonArray("apis");
+        JsonObject jsonObject;
+        try {
+            jsonObject = jsonReader.readObject();
+        }
+        catch(JsonParsingException e){
+            throw new RuntimeException("The server response has not JSON format which is expected for API specification list.", e);
+        }
+        JsonValue apisValue = jsonObject.get("apis");
+        if(apisValue == null || !(apisValue instanceof JsonArray)) throw new RuntimeException("API specification list has incorrect format: no \"apis\" entry has been found.");
+        JsonArray apis = (JsonArray)apisValue;
         ArrayList<ApiDefLink> result = new ArrayList<ApiDefLink>();
         for(javax.json.JsonValue it: apis){
             if(it instanceof JsonObject){

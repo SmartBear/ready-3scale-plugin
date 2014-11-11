@@ -169,7 +169,7 @@ class Utils {
                 return;
             }
             if(result.apis == null || result.apis.size() == 0){
-                result.addError("No API is accessible at the specified URL.");
+                result.addError("No API is accessible at the specified URL or registered correctly.");
             }
 
         }
