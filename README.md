@@ -6,11 +6,19 @@ A plugin for Ready! API that allows you to import APIs directly from a 3Scale ho
 Installation
 ------------
 
-Either install via the integrated Plugin Repository or build locally with
+Install the plugin via the integrated Plugin Repository available via the Plugin Manager in SoapUI Pro 5.X or Ready! API 1.X
 
-```maven clean install assembly:single```
 
-and install in Ready! API from the Plugin Manager. Please note that if you need the plugin to work with SoapUI Pro 
+Build it yourself
+-----------------
+
+You can build the plugin locally by cloning this repository locally - make sure you have java and maven 3.X correctly 
+installed - and run 
+
+```mvn clean install assembly:single```
+
+in the project folder. The plugin dist.jar will be created in the target folder and can be installed via the 
+Plugin Managers' "Load from File" action. Please note that if you need the plugin to work with SoapUI Pro 
 or Ready! API 1.0 you will need to build the SoapUIPro-compatible branch instead of master.
 
 Usage
