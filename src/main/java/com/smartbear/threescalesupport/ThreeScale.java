@@ -35,7 +35,7 @@ public class ThreeScale{
             reader = new InputStreamReader(url.openStream());
         }
         catch(FileNotFoundException e){
-            throw new FileNotFoundException("API specification list has not been found at the expected URL");
+            throw new FileNotFoundException("No APIs available at this location. Please contact 3scale support for assistance.");
         }
         final javax.json.JsonReader jsonReader = javax.json.Json.createReader(reader);
         JsonObject jsonObject;
@@ -43,10 +43,12 @@ public class ThreeScale{
             jsonObject = jsonReader.readObject();
         }
         catch(JsonParsingException e){
-            throw new RuntimeException("The server response has not JSON format which is expected for API specification list.", e);
+            throw new IOException("The list of APIs is not in the expected JSON format. Please contact 3scale support for assistance.", e);
         }
         JsonValue apisValue = jsonObject.get("apis");
-        if(apisValue == null || !(apisValue instanceof JsonArray)) throw new RuntimeException("API specification list has incorrect format: no \"apis\" entry has been found.");
+        if(apisValue == null || !(apisValue instanceof JsonArray)){
+            throw new IOException("API specification list has incorrect format: no \"apis\" entry has been found.\nPlease contact 3scale support for assistance.");
+        }
         JsonArray apis = (JsonArray)apisValue;
         ArrayList<ApiDefLink> result = new ArrayList<ApiDefLink>();
         for(javax.json.JsonValue it: apis){

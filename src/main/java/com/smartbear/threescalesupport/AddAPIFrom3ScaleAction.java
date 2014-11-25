@@ -14,18 +14,15 @@ import java.util.List;
 public class AddAPIFrom3ScaleAction extends AbstractSoapUIAction<WsdlProject> {
 
     public AddAPIFrom3ScaleAction() {
-        super("Add API From 3Scale", "Adds API from the specification on 3Scale developer portal.");
+        super("Add API From 3scale", "Adds API from the specification on 3scale developer portal.");
     }
-
-
-
 
     @Override
     public void perform(WsdlProject wsdlProject, Object o) {
         Utils.APIListExtractionResult listExtractionResult;
         String urlString = null;
         while(true) {
-            urlString = UISupport.getDialogs().prompt("Input developer portal URL (i.e. developer.example.com or example.3scale.net)", "Add API Specification from 3Scale", urlString);
+            urlString = UISupport.getDialogs().prompt("Input developer portal URL (i.e. developer.example.com or example.3scale.net)", "Add API Specification from 3scale", urlString);
             if (urlString == null) return;
             URL url = Utils.stringToUrl(urlString);
             if (url == null) {

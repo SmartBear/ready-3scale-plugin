@@ -29,10 +29,16 @@ import java.util.List;
 class Utils {
     public static URL stringToUrl(String s){
         if(StringUtils.isNullOrEmpty(s)) return null;
+
+        if( !s.toLowerCase().startsWith( "http://") || !s.toLowerCase().startsWith("https://")){
+            s = "https://" + s;
+        }
+
         try {
             return new URL(s);
         }
         catch (MalformedURLException e){
+            SoapUI.logError( e );
             return null;
         }
     }
@@ -85,7 +91,11 @@ class Utils {
             @Override
             public ValidationMessage[] validateField(XFormField formField) {
                 int[] selected = apiListBox.getSelectedIndices();
-                if(selected == null || selected.length == 0) return new ValidationMessage[]{ new ValidationMessage("Please select at least one API specification to add.", formField)}; else  return new ValidationMessage[0];
+                if(selected == null || selected.length == 0){
+                    return new ValidationMessage[]{ new ValidationMessage("Please select at least one API specification to add.", formField)};
+                } else{
+                    return new ValidationMessage[0];
+                }
             }
         });
 
@@ -165,7 +175,7 @@ class Utils {
             if (result.canceled) return;
             waitDialog.setVisible(false);
             if(StringUtils.hasContent(apiRetrievingError)){
-                result.addError("Unable to extract API Definition List from the specified 3Scale developer portal because of the following error:\n" + apiRetrievingError);
+                result.addError("Unable to read API list from the specified 3scale developer portal because of the following error:\n" + apiRetrievingError);
                 return;
             }
             if(result.apis == null || result.apis.size() == 0){
@@ -219,12 +229,22 @@ class Utils {
                     service = ThreeScale.importAPItoProject(link, project);
                 }
                 catch(Throwable e){
-                    errors = errors + String.format("Importing of \"%s\" API has failed with \"%s\" error.\n", link.name, e.getMessage());
+
+                    if( errors.length() > 0 ){
+                        errors += "\n";
+                    }
+
+                    errors = String.format("Failed to read API description for[%s] - [%s]", link.name, e.getMessage());
                     SoapUI.logError( e );
                     continue;
                 }
                 addedServices.add(service);
             }
+
+            if( errors.length() > 0 ){
+                errors += "\nPlease contact 3scale support for assistance";
+            }
+
             return null;
         }
 
