@@ -21,14 +21,14 @@ import com.eviware.x.form.support.AForm;
 import java.net.URL;
 import java.util.List;
 
-@PluginImportMethod(label = "3Scale Developer Portal (REST)")
+@PluginImportMethod(label = "3scale Developer Portal (REST)")
 public class AddProjectFrom3ScaleAction extends AbstractSoapUIAction<WorkspaceImpl> {
 
     private boolean isProjectNameTyped = false;
     private Utils.APIListExtractionResult listExtractionResult = null;
 
     public AddProjectFrom3ScaleAction(){
-        super("Create Project From 3Scale", "Creates a new project from API specification on 3Scale developer portal.");
+        super("Create Project From 3scale", "Creates a new project from API specification on 3scale developer portal.");
     }
 
     @Override
@@ -55,13 +55,22 @@ public class AddProjectFrom3ScaleAction extends AbstractSoapUIAction<WorkspaceIm
         dialog.getFormField(Form.DEVELOPER_PORTAL_URL).addFormFieldValidator(new XFormFieldValidator() {
             @Override
             public ValidationMessage[] validateField(XFormField formField) {
-                if(StringUtils.isNullOrEmpty(dialog.getValue(Form.DEVELOPER_PORTAL_URL))) return new ValidationMessage[]{new ValidationMessage("Please enter the developer portal URL.", dialog.getFormField(Form.DEVELOPER_PORTAL_URL))};
-                if(StringUtils.isNullOrEmpty(dialog.getValue(Form.PROJECT_NAME))) return new ValidationMessage[]{new ValidationMessage("Please enter project name.", dialog.getFormField(Form.PROJECT_NAME))};
+                if(StringUtils.isNullOrEmpty(dialog.getValue(Form.DEVELOPER_PORTAL_URL))){
+                    return new ValidationMessage[]{new ValidationMessage("Please enter the developer portal URL.", dialog.getFormField(Form.DEVELOPER_PORTAL_URL))};
+                }
+
+                if(StringUtils.isNullOrEmpty(dialog.getValue(Form.PROJECT_NAME))){
+                    return new ValidationMessage[]{new ValidationMessage("Please enter project name.", dialog.getFormField(Form.PROJECT_NAME))};
+                }
 
                 URL portalUrl = Utils.stringToUrl(formField.getValue());
-                if(portalUrl == null) return new ValidationMessage[]{new ValidationMessage("Invalid developer portal URL.", formField)};
+                if(portalUrl == null){
+                    return new ValidationMessage[]{new ValidationMessage("Invalid developer portal URL.", formField)};
+                }
                 listExtractionResult = Utils.downloadAPIList(portalUrl);
-                if(StringUtils.hasContent(listExtractionResult.error)) return new ValidationMessage[]{new ValidationMessage(listExtractionResult.error, formField)};
+                if(StringUtils.hasContent(listExtractionResult.error)){
+                    return new ValidationMessage[]{new ValidationMessage(listExtractionResult.error, formField)};
+                }
                 return new ValidationMessage[0];
             }
         });
@@ -70,13 +79,12 @@ public class AddProjectFrom3ScaleAction extends AbstractSoapUIAction<WorkspaceIm
             List<ThreeScale.ApiDefLink> selectedAPIs = Utils.showSelectAPIDefDialog(listExtractionResult.apis);
             if(selectedAPIs != null){
                 WsdlProject project;
-                boolean success = false;
                 try {
                     project = target.createProject(dialog.getValue(Form.PROJECT_NAME), null);
                 }
                 catch(Exception e){
                     SoapUI.logError(e);
-                    UISupport.showErrorMessage(String.format("Unable to create project because of %s exception with \"%s\" message", e.getClass().getName(), e.getMessage()));
+                    UISupport.showErrorMessage(String.format("Unable to create Project because of %s exception with \"%s\" message", e.getClass().getName(), e.getMessage()));
                     return;
                 }
                 List<RestService> services = Utils.importServices(selectedAPIs, project);
@@ -119,7 +127,7 @@ public class AddProjectFrom3ScaleAction extends AbstractSoapUIAction<WorkspaceIm
     }
 
 
-    @AForm(name = "Create Project From API Specification on 3Scale Portal", description = "Creates a new Project from API specification on 3Scale developer portal in this workspace")
+    @AForm(name = "Create Project From API Specification on 3scale Portal", description = "Creates a new Project from API specification on 3scale developer portal in this workspace")
     private interface Form {
         @AField(name = "Project Name", description = "Name of the project", type = AField.AFieldType.STRING)
         public final static String PROJECT_NAME = "Project Name";
