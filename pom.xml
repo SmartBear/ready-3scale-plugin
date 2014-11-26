@@ -23,11 +23,11 @@
 
     <dependencies>
 
-        <dependency>
-            <groupId>com.smartbear</groupId>
-            <artifactId>ready-api-soapui-pro</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
-        </dependency>
+		<dependency>
+		    <groupId>com.smartbear.soapui</groupId> 
+		    <artifactId>soapui-pro</artifactId> 
+		    <version>5.1.2</version> 
+		</dependency>
         <dependency>
             <groupId>org.glassfish</groupId>
             <artifactId>javax.json</artifactId>
