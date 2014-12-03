@@ -5,7 +5,7 @@
     <name>3Scale Support Plugin</name>
     <artifactId>ready-3scale-plugin</artifactId>
     <groupId>com.smartbear</groupId>
-    <version>1.0</version>
+    <version>1.0.1</version>
     <repositories>
         <repository>
             <id>eviware</id>
