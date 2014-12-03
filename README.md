@@ -18,8 +18,7 @@ installed - and run
 ```mvn clean install assembly:single```
 
 in the project folder. The plugin dist.jar will be created in the target folder and can be installed via the 
-Plugin Managers' "Load from File" action. Please note that if you need the plugin to work with SoapUI Pro 
-or Ready! API 1.0 you will need to build the SoapUIPro-compatible branch instead of master.
+Plugin Managers' "Load from File" action. 
 
 Usage
 -----
@@ -43,5 +42,10 @@ the APIs underlying Swagger description and configure a corresponding REST API i
 * create a virtualized version of the API for sandboxing/simulation purposes (in the ServiceV module).
 
 Have fun!
+
+Version History
+---------------
+
+*  1.0.1 - 20141202 - Improved error messages and endpoint handling
 
 
