@@ -1,12 +1,12 @@
 ready-3scale-plugin
 ===================
 
-A plugin for Ready! API that allows you to import APIs directly from a 3Scale hosted developer portal. 
+A plugin for ReadyAPI that allows you to import APIs directly from a 3Scale hosted developer portal. 
 
 Installation
 ------------
 
-Install the plugin via the integrated Plugin Repository available via the Plugin Manager in SoapUI Pro 5.X or Ready! API 1.X
+Install the plugin via the integrated Plugin Repository available via the Plugin Manager in SoapUI Pro 5.X or ReadyAPI 1.X
 
 
 Build it yourself
@@ -34,11 +34,11 @@ all these expose API-metadata, in which case you will get an error.
 
 Once a valid developer portal URL has been specified (for example https://dev.truecaller.com/) you will be presented
 with a list of available APIs and import options, configure as desired and proceed with the import - which will download
-the APIs underlying Swagger description and configure a corresponding REST API in Ready! API. Now you can easily:
+the APIs underlying Swagger description and configure a corresponding REST API in ReadyAPI. Now you can easily:
 
 * send ad-hoc requests to the API to explore its functionality
 * create functional tests of the API which you can further use to create Load Tests, Security Tests and API Monitors 
-(in the SoapUI NG module)
+(in the SoapUI module)
 * create a virtualized version of the API for sandboxing/simulation purposes (in the ServiceV module).
 
 Have fun!
